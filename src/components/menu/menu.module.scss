@@ -16,6 +16,12 @@
   font-family: "Josefin Sans";
 }
 
+@media screen and (max-width: 599px) {
+  .menu {
+    max-width: 300px;
+  }
+}
+
 .count {
   text-align: center;
   color: #9495a5;

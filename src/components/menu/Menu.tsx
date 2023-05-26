@@ -1,7 +1,8 @@
-import classNames from "classnames";
 import { ReactElement } from "react";
 import { FilterType } from "../../enums/typeFilters";
+import useWindowSize from "../../hooks/UseWindowSize";
 import { ITask } from "../../types/task";
+import { Filter } from "../filter/Filter";
 import style from "./menu.module.scss";
 
 type Props = {
@@ -19,42 +20,14 @@ export const Menu: React.FC<Props> = ({
   type,
   listTask,
 }): ReactElement => {
+  const windowSize = useWindowSize();
+
   return (
     <div className={style.menu}>
       <span className={style.count}>{`${count} items left`}</span>
-      <div>
-        <button
-          onClick={() => setTypeFilter(null)}
-          className={classNames(style.filter, {
-            [style["active"]]: type === null,
-          })}
-        >
-          All
-        </button>
-        <button
-          disabled={!listTask.filter((task: ITask) => !task.complete).length}
-          onClick={() => setTypeFilter(FilterType.active)}
-          className={classNames(style.filter, {
-            [style["active"]]: type === "Active",
-            [style["disable"]]: !listTask.filter(
-              (task: ITask) => !task.complete
-            ).length,
-          })}
-        >
-          Active
-        </button>
-        <button
-          disabled={!listTask.filter((task: ITask) => task.complete).length}
-          onClick={() => setTypeFilter(FilterType.complete)}
-          className={classNames(style.filter, {
-            [style["active"]]: type === "Complete",
-            [style["disable"]]: !listTask.filter((task: ITask) => task.complete)
-              .length,
-          })}
-        >
-          Completed
-        </button>
-      </div>
+      {windowSize.width > 600 && (
+        <Filter setTypeFilter={setTypeFilter} type={type} listTask={listTask} />
+      )}
       <button className={style.clear} onClick={deleteAllComplete}>
         Clear Complete
       </button>

@@ -1,15 +1,18 @@
 import { ReactElement, useEffect, useState } from "react";
 import style from "./app.module.scss";
 import { Creator } from "./components/creator/Creator";
+import { Filter } from "./components/filter/Filter";
 import { List } from "./components/list/List";
 import { Menu } from "./components/menu/Menu";
 import { FilterType } from "./enums/typeFilters";
+import useWindowSize from "./hooks/UseWindowSize";
 import { ITask } from "./types/task";
 
 function App(): ReactElement {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [typeFilter, setTypeFilter] = useState<FilterType | null>(null);
   const [update, setUpdate] = useState(false);
+  const windowsSize = useWindowSize();
 
   const addTask = (task: ITask) => {
     setTasks((prevValue) => [...prevValue, task]);
@@ -102,6 +105,15 @@ function App(): ReactElement {
           type={typeFilter}
           listTask={tasks}
         />
+        {windowsSize.width < 600 && (
+          <div className={style.supplementary_menu}>
+            <Filter
+              setTypeFilter={setTypeFilter}
+              type={typeFilter}
+              listTask={tasks}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
