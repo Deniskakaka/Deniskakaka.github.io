@@ -1,0 +1,41 @@
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 9999;
+  width: 480px;
+  height: 64px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 2px solid #e3e4f1;
+  background-color: #fff;
+}
+
+@media screen and (max-width: 599px) {
+  .task {
+    width: 300px;
+  }
+}
+
+.text {
+  font-family: "Josefin Sans";
+  font-size: 18px;
+  margin-left: 22px;
+  max-width: 250px;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.close {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.done {
+  text-decoration: line-through;
+  color: #d1d2da;
+}
