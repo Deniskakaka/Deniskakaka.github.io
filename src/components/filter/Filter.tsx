@@ -10,10 +10,15 @@ type Props = {
 };
 
 export const Filter: React.FC<Props> = ({ setTypeFilter, type, listTask }) => {
+  const saveTypeFilter = (type: FilterType | null) => {
+    setTypeFilter(type);
+    localStorage.setItem("filterType", JSON.stringify(type));
+  };
+
   return (
     <div>
       <button
-        onClick={() => setTypeFilter(null)}
+        onClick={() => saveTypeFilter(null)}
         className={classNames(style.filter, {
           [style["active"]]: type === null,
         })}
@@ -22,7 +27,7 @@ export const Filter: React.FC<Props> = ({ setTypeFilter, type, listTask }) => {
       </button>
       <button
         disabled={!listTask.filter((task: ITask) => !task.complete).length}
-        onClick={() => setTypeFilter(FilterType.active)}
+        onClick={() => saveTypeFilter(FilterType.active)}
         className={classNames(style.filter, {
           [style["active"]]: type === "Active",
           [style["disable"]]: !listTask.filter((task: ITask) => !task.complete)
@@ -33,7 +38,7 @@ export const Filter: React.FC<Props> = ({ setTypeFilter, type, listTask }) => {
       </button>
       <button
         disabled={!listTask.filter((task: ITask) => task.complete).length}
-        onClick={() => setTypeFilter(FilterType.complete)}
+        onClick={() => saveTypeFilter(FilterType.complete)}
         className={classNames(style.filter, {
           [style["active"]]: type === "Complete",
           [style["disable"]]: !listTask.filter((task: ITask) => task.complete)

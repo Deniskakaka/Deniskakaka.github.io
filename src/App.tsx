@@ -14,6 +14,10 @@ function App(): ReactElement {
   const [update, setUpdate] = useState(false);
   const windowsSize = useWindowSize();
 
+  const saveLocalTasks = (data: ITask[]) => {
+    localStorage.setItem("tasks", JSON.stringify(data));
+  };
+
   const changeOrder = (newTasksOrder: ITask[]) => {
     const updatedTasks = [...newTasksOrder];
 
@@ -28,6 +32,7 @@ function App(): ReactElement {
     }
 
     setTasks(updatedTasks);
+    saveLocalTasks(updatedTasks);
   };
 
   const addTask = (task: ITask) => {
@@ -88,16 +93,25 @@ function App(): ReactElement {
 
   useEffect(() => {
     const storedTasks = localStorage.getItem("tasks");
+
     if (!storedTasks) {
-      localStorage.setItem("tasks", JSON.stringify([]));
+      saveLocalTasks([]);
     } else {
       setTasks(JSON.parse(storedTasks));
     }
   }, []);
 
   useEffect(() => {
+    const typeFilter = localStorage.getItem("filterType");
+
+    if (typeFilter) {
+      setTypeFilter(JSON.parse(typeFilter));
+    }
+  }, []);
+
+  useEffect(() => {
     if (update) {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
+      saveLocalTasks(tasks);
       setUpdate(false);
     }
   }, [tasks, update]);
