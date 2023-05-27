@@ -14,6 +14,22 @@ function App(): ReactElement {
   const [update, setUpdate] = useState(false);
   const windowsSize = useWindowSize();
 
+  const changeOrder = (newTasksOrder: ITask[]) => {
+    const updatedTasks = [...newTasksOrder];
+
+    for (const task of tasks) {
+      const existingTaskIndex = updatedTasks.findIndex(
+        (newTask) => newTask.id === task.id
+      );
+
+      if (existingTaskIndex === -1) {
+        updatedTasks.push(task);
+      }
+    }
+
+    setTasks(updatedTasks);
+  };
+
   const addTask = (task: ITask) => {
     setTasks((prevValue) => [...prevValue, task]);
     setUpdate(true);
@@ -97,6 +113,7 @@ function App(): ReactElement {
           editComplete={editTaskComplete}
           editText={editTextTask}
           deleteTask={deleteTask}
+          changeOrder={changeOrder}
         />
         <Menu
           count={filterTasks(typeFilter).length}
